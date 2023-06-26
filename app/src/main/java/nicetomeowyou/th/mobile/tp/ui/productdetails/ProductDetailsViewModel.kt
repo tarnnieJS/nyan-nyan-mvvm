@@ -1,5 +1,7 @@
 package nicetomeowyou.th.mobile.tp.ui.productdetails
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +13,7 @@ import nicetomeowyou.th.mobile.tp.services.models.ProductDetails
 import nicetomeowyou.th.mobile.tp.services.models.Request
 import retrofit2.HttpException
 
-class ProductDetailsViewModel : ViewModel() {
+class ProductDetailsViewModel(application: Application) : AndroidViewModel(application){
     val productDetails = MutableLiveData<ProductDetails>()
     val error = MutableLiveData<String>()
 
@@ -20,9 +22,9 @@ class ProductDetailsViewModel : ViewModel() {
             try {
                 val response = withContext(Dispatchers.IO) {
                     when (type) {
-                        1 -> ServiceClient.create(ProductDetailsActivity().applicationContext).getIphoneDetails(Request(""))
-                        2 -> ServiceClient.create(ProductDetailsActivity().applicationContext).getIpadDetails(Request(""))
-                        else -> ServiceClient.create(ProductDetailsActivity().applicationContext).getAppleWatchDetails(Request(""))
+                        1 -> ServiceClient.create(getApplication<Application>().baseContext).getIphoneDetails(Request(""))
+                        2 -> ServiceClient.create(getApplication<Application>().baseContext).getIpadDetails(Request(""))
+                        else -> ServiceClient.create(getApplication<Application>().baseContext).getAppleWatchDetails(Request(""))
                     }
                 }
                 productDetails.value = response

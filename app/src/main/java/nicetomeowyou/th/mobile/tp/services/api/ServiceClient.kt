@@ -19,14 +19,11 @@ class ServiceClient {
 
         @JvmStatic
         fun createWithToken(token: String): ServiceAPI {
-
             val url = "https://private-18a32-iosadv.apiary-mock.com/"
-
             val logging = HttpInterceptor()
             logging.apply {
                 level = HttpInterceptor.Level.BODY
             }
-
             val header =
                 Interceptor { chain ->
                     chain.proceed(
@@ -88,7 +85,6 @@ class ServiceClient {
 
 
             val okHttpBuilder = OkHttpClient.Builder()
-
                 .addInterceptor(header)
                 .addInterceptor(logging)
                 .connectTimeout(200, TimeUnit.SECONDS)
